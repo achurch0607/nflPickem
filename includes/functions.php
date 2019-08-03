@@ -402,3 +402,23 @@ function getTeamStreak($teamID) {
 	}
 	$query->free;
 }
+
+function updateFromBuildSchedule($schedule)
+{
+//    var_dump($schedule);
+        
+        
+
+
+    global $mysqli;
+    foreach($schedule as   $k => $v){
+//        echo $v['gameTimeEastern'] . '<br>';
+        
+            $sql = "INSERT  INTO " . DB_PREFIX . "schedule (gameID, weekNum, gameTimeEastern, homeID, homeScore, visitorID, visitorScore, overtime)";
+            $sql.= "VALUES(NULL," . $v['weekNum'] . ",'" . $v['gameTimeEastern']. "','".$v['homeID']."', 0,'".$v['visitorID']."',0, 0)";
+
+    }
+echo $sql;
+    $mysqli->multi_query($sql) or die('Error inserting Schedule: ' . $mysqli->error);
+   
+}

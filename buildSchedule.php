@@ -34,30 +34,12 @@ for ($week = 1; $week <= $weeks; $week++) {
 			'homeID' => $home_team,
 			'visitorID' => $away_team
 		);
+                updateFromBuildSchedule($schedule);
 	}
+        
 }
 
-//output to excel
-$output = '<table>'."\n".
-	'<tr><td>weekNum</td><td>gameTimeEastern</td><td>homeID</td><td>visitorID</td></tr>'."\n";
-for ($i = 0; $i < sizeof($schedule); $i++) {
-	$output .= '<tr><td>'.$schedule[$i]['weekNum'].'</td><td>'.$schedule[$i]['gameTimeEastern'].'</td><td>'.$schedule[$i]['homeID'].'</td><td>'.$schedule[$i]['visitorID'].'</td></tr>'."\n";
-}
-$output .= '</table>';
-
-// fix for IE catching or PHP bug issue
-header("Pragma: public");
-header("Expires: 0"); // set expiration time
-header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-// browser must download file from server instead of cache
-
-header('Content-Type: application/vnd.ms-excel;');
-//header("Content-type: application/x-msexcel");
-//header("Content-type: application/x-msdownload");
-header("Content-Disposition: attachment; filename=nfl_schedule_".SEASON_YEAR.".xls");
-
-echo $output;
-//echo '<pre>';
-//print_r($schedule);
-//echo '</pre>';
+echo '<pre>';
+print_r($schedule);
+echo '</pre>';
 exit;
