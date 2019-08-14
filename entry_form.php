@@ -9,7 +9,7 @@ if ($_POST['action'] == 'Submit') {
 	//update summary table
 	$sql = "delete from " . DB_PREFIX . "picksummary where weekNum = " . $_POST['week'] . " and userID = " . $user->userID . ";";
 	$mysqli->query($sql) or die('Error updating picks summary: ' . $mysqli->error);
-	$sql = "insert into " . DB_PREFIX . "picksummary (weekNum, userID, showPicks) values (" . $_POST['week'] . ", " . $user->userID . ", " . (int)$_POST['showPicks'] . ");";
+	$sql = "insert into " . DB_PREFIX . "picksummary (weekNum, userID, showPicks) values (" . $_POST['week'] . ", " . $user->userID . ", 1);";
 	$mysqli->query($sql) or die('Error updating picks summary: ' . $mysqli->error);
 
 	//loop through non-expire weeks and update picks
@@ -91,36 +91,25 @@ include('includes/header.php');
 		});
 	});
 	</script>
-<?php
-//display week nav
-$sql = "select distinct weekNum from " . DB_PREFIX . "schedule order by weekNum;";
-$query = $mysqli->query($sql);
-$weekNav = '<div id="weekNav" class="row">';
-$weekNav .= '	<div class="navbar3 col-xs-12"><b>Go to week:</b> ';
-$i = 0;
-if ($query->num_rows > 0) {
-	while ($row = $query->fetch_assoc()) {
-		if ($i > 0) $weekNav .= ' | ';
-		if ($week !== (int)$row['weekNum']) {
-			$weekNav .= '<a href="entry_form.php?week=' . $row['weekNum'] . '">' . $row['weekNum'] . '</a>';
-		} else {
-			$weekNav .= $row['weekNum'];
-		}
-		$i++;
-	}
-}
-$query->free;
-$weekNav .= '	</div>' . "\n";
-$weekNav .= '</div>' . "\n";
-echo $weekNav;
-?>
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Jump to week</a>
+    </li>
+    <?php
+        $i = 1;
+        while ($i <= 17) {
+            $weekLink = $week == $i ? '<li class="page-item active"><span class="page-link">'.$i.'<span class="sr-only">(current)</span></span></li>':'<li class="page-item"><a class="page-link" href="entry_form.php?week='.$i.'">'.$i.'</a></li>';
+            echo $weekLink;
+            $i++;
+        }
+    ?>
+  </ul>
+</nav>
 		<div class="row">
-			<div class="col-md-4 col-xs-12 col-right">
-<?php
-include('includes/column_right.php');
-?>
-			</div>
-			<div id="content" class="col-md-8 col-xs-12">
+
+			<div id="content" class="col-md-12 col-xs-12">
 				<h2>Week <?php echo $week; ?> - Make Your Picks:</h2>
 				<p>Please make your picks below for each game.</p>
 	<?php
@@ -258,7 +247,6 @@ include('includes/column_right.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-		echo '<p class="noprint"><input type="checkbox" name="showPicks" id="showPicks" value="1"' . (($showPicks) ? ' checked="checked"' : '') . ' /> <label for="showPicks">Allow others to see my picks</label></p>' . "\n";
 		echo '<p class="noprint"><input type="submit" name="action" value="Submit" /></p>' . "\n";
 		echo '</form>' . "\n";
 	}
@@ -267,7 +255,7 @@ echo '	</div>'."\n"; // end col
 echo '	</div>'."\n"; // end entry-form row
 
 //echo '<div id="comments" class="row">';
-include('includes/comments.php');
+//include('includes/comments.php');
 //echo '</div>';
 
 include('includes/footer.php');

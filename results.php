@@ -215,6 +215,4 @@ if (sizeof($playerTotals) > 0) {
 	$query->free;
 }
 
-include('includes/comments.php');
-
 include('includes/footer.php');

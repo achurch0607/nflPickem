@@ -148,8 +148,4 @@ if (isset($weekStats)) {
 	</div>
 </div>
 
-<?php
-include('includes/comments.php');
-
-include('includes/footer.php');
-?>
+<?php include('includes/footer.php');

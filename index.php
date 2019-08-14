@@ -28,12 +28,7 @@ if ($user->userName == 'admin') {
 	//include('includes/column_right.php');
 ?>
 	<div class="row">
-		<div class="col-md-4 col-xs-12 col-right">
-<?php
-include('includes/column_right.php');
-?>
-		</div>
-		<div id="content" class="col-md-8 col-xs-12">
+		<div id="content" class="col-md-12 col-xs-12">
 			<h3>Your Picks At A Glance:</h3>
 	<?php
 	$lastCompletedWeek = getLastCompletedWeek();
@@ -91,7 +86,6 @@ include('includes/column_right.php');
 		</div><!-- end col -->
 	</div><!-- end entry-form -->
 <?php
-	include('includes/comments.php');
 }
 
 require('includes/footer.php');

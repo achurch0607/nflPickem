@@ -28,15 +28,7 @@ class Login{
 		$password = $this->no_injections($_POST['password']);
 		$user = $this->get_user($user_name);
 		$passwordEncrypted = $crypto->encrypt($user->salt . $crypto->encrypt($password));
-		/*echo 'User input:<br />'.
-			'Username: '.$user_name.'<br />'.
-			'Password: '.$password.'<br />'.
-			'Password (encrypted): '.$passwordEncrypted.'<br /><br />'.
-			'Database:</br />'.
-			'Username: '.$user->userName.'<br />'.
-			'Password: '.$user->password.'<br />'.
-			'Salt: '.$user->salt.'<br />'.
-			'Password (decrypted): '.$crypto->decrypt($user->salt . $user->password);*/
+
 		if (!empty($user) && !empty($password) && $user->password == $passwordEncrypted) {
 			$_SESSION['logged'] = 'yes';
 			$_SESSION['loggedInUser'] = $user->userName;

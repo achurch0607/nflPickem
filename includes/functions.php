@@ -31,7 +31,7 @@ function getCutoffDateTime($week) {
 		return $row['gameTimeEastern'];
 	}
 	$query->free;
-	die('Error getting cutoff date: ' . $mysqli->error);
+//	die('Error getting cutoff date: ' . $mysqli->error);
 }
 
 function getFirstGameTime($week) {
@@ -44,7 +44,7 @@ function getFirstGameTime($week) {
 		return $row['gameTimeEastern'];
 	}
 	$query->free;
-	die('Error getting first game time: ' . $mysqli->error);
+//	die('Error getting first game time: ' . $mysqli->error);
 }
 
 function getPickID($gameID, $userID) {
@@ -405,15 +405,9 @@ function getTeamStreak($teamID) {
 
 function updateFromBuildSchedule($schedule)
 {
-//    var_dump($schedule);
-        
-        
-
-
     global $mysqli;
     foreach($schedule as   $k => $v){
-//        echo $v['gameTimeEastern'] . '<br>';
-        
+
             $sql = "INSERT  INTO " . DB_PREFIX . "schedule (gameID, weekNum, gameTimeEastern, homeID, homeScore, visitorID, visitorScore, overtime)";
             $sql.= "VALUES(NULL," . $v['weekNum'] . ",'" . $v['gameTimeEastern']. "','".$v['homeID']."', 0,'".$v['visitorID']."',0, 0)";
 

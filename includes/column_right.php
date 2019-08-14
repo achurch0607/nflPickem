@@ -1,7 +1,7 @@
 		<p class="skip2content"><a href="<?php echo $_SERVER['REQUEST_URI']; ?>#content">Skip to content &raquo;</a></p>
 
 		<div class="bg-primary">
-			<b>Current Time (Eastern):</b><br />
+			<b>Current Time (Mountain):</b><br />
 			<span id="jclock1"></span>
 			<script type="text/javascript">
 			$(function($) {
@@ -36,7 +36,7 @@
 		//set up countdown for picks lock time
 		var picksLockedTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($cutoffDateTime)); ?>");
 		picksLockedTime.setHours(picksLockedTime.getHours() -1);
-		$('#picksLocked').countdown({until: picksLockedTime, description: 'until week <?php echo $currentWeek; ?> is locked'});
+		$('#picksLocked').countdown({until: picksLockedTime, description: 'until week <?php echo $week; ?> is locked'});
 		</script>
 		<?php
 		} else {
