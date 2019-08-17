@@ -8,12 +8,12 @@ include('includes/header.php');
 
 if ($user->userName == 'admin') {
 ?>
-	<img src="images/art_holst_nfl.jpg" width="192" height="295" alt="ref" style="float: right; padding-left: 10px;" />
-	<h1>Welcome, Admin!</h1>
-	<p><b>If you feel that the work I've done has value to you,</b> I would greatly appreciate a paypal donation (click button below).  I have spent many hours working on this project, and I will continue its development as I find the time.  Again, I am very grateful for any and all contributions.</p>
+    <img src="images/art_holst_nfl.jpg" width="192" height="295" alt="ref" style="float: right; padding-left: 10px;" />
+    <h1>Welcome, Admin!</h1>
+    <p><b>If you feel that the work I've done has value to you,</b> I would greatly appreciate a paypal donation (click button below).  I have spent many hours working on this project, and I will continue its development as I find the time.  Again, I am very grateful for any and all contributions.</p>
 <?php
-	include('includes/donate_button.inc.php');
 } else {
+    //sets warning for current week
 	if ($weekExpired) {
 		//current week is expired, show message
 		echo '	<div class="bg-warning">The current week is locked.  <a href="results.php">Check the Results &gt;&gt;</a></div>' . "\n";
@@ -22,70 +22,71 @@ if ($user->userName == 'admin') {
 		$picks = getUserPicks($currentWeek, $user->userID);
 		$gameTotal = getGameTotal($currentWeek);
 		if (sizeof($picks) < $gameTotal) {
-			echo '	<div class="bg-warning">You have NOT yet made all of your picks for week ' . $currentWeek . '.  <a href="entry_form.php">Make Your Picks &gt;&gt;</a></div>' . "\n";
-		}
+			echo '	<div class="alert alert-warning" style="text-align:center;"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> YOU HAVE NOT MADE ALL OF YOUR PICKS FOR  WEEK ' . $currentWeek . '<a href="entry_form.php?week='. $currentWeek . '" > Enter  Your Picks Now</a><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></div>';
+                }
 	}
-	//include('includes/column_right.php');
-?>
-	<div class="row">
-		<div id="content" class="col-md-12 col-xs-12">
-			<h3>Your Picks At A Glance:</h3>
-	<?php
-	$lastCompletedWeek = getLastCompletedWeek();
 
-	$sql = "select s.weekNum, count(s.gameID) as gamesTotal,";
-	$sql .= " min(s.gameTimeEastern) as firstGameTime,";
-	$sql .= " (select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = s.weekNum and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1) as cutoffTime,";
-	$sql .= " (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > (select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = s.weekNum and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1)) as expired ";
-	$sql .= "from " . DB_PREFIX . "schedule s ";
-	$sql .= "group by s.weekNum ";
-	$sql .= "order by s.weekNum;";
-	$query = $mysqli->query($sql);
-	$i = 0;
-	$rowclass = '';
-	while ($row = $query->fetch_assoc()) {
-		//$rowclass = (($i % 2 == 0) ? ' class="altrow"' : '');
-		echo '		<div class="row-week">' . "\n";
-		echo '			<p><b>Week ' . $row['weekNum'] . '</b><br />' . "\n";
-		echo '			First game: ' . date('n/j g:i a', strtotime($row['firstGameTime'])) . '<br />' . "\n";
-		echo '			Cutoff: ' . date('n/j g:i a', strtotime($row['cutoffTime'])) . '</p>' . "\n";
-		//echo '		</tr>'."\n";
-		if ($row['expired']) {
-			//if week is expired, show score (if scores are entered)
-			if ($lastCompletedWeek >= (int)$row['weekNum']) {
-				//scores entered, show score
-				$weekTotal = getGameTotal($row['weekNum']);
-				//get player score
-				$userScore = getUserScore($row['weekNum'], $user->userID);
-				echo '			<div class="bg-info"><b>Score: ' . $userScore . '/' . $weekTotal . ' (' . number_format(($userScore / $weekTotal) * 100, 2) . '%)</b><br /><a href="results.php?week='.$row['weekNum'].'">See Results &raquo;</a></div>' . "\n";
-			} else {
-				//scores not entered, show ???
-				echo '			<div class="bg-info">Week is closed,</b> but scores have not yet been entered.<br /><a href="results.php?week='.$row['weekNum'].'">See Results &raquo;</a></div>' . "\n";
-			}
-		} else {
+        //build summary for each week        
+        $weekRow = indexPicksSummary();
+        $i = 1;
+        while($i <= count($weekRow)){
+            if($weekRow[$i]['expired']){
+                if($lastCompletedWeek >= (int)$weekRow[$i]['weekNum']){
+                    $scoreTotal = '<li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong><b>Score: ' . $userScore . '/' . $weekTotal . ' (' . number_format(($userScore / $weekTotal) * 100, 2) . '%)</b></strong><a href="results.php?week='.$weekRow[$i]['weekNum'].'">See Results &raquo;</a></li>';
+                } else {
+                    $scoreTotal = '<li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>Week is closed,</b> but scores have not yet been entered.</strong><a href="results.php?week='.$weekRow[$i]['weekNum'].'">See Results &raquo;</a>';
+                }
+                    
+            }else {
 			//week is not expired yet, check to see if all picks have been entered
-			$picks = getUserPicks($row['weekNum'], $user->userID);
-			if (sizeof($picks) < (int)$row['gamesTotal']) {
+			$picks = getUserPicks($weekRow[$i]['weekNum'], $user->userID);
+			if (sizeof($picks) < (int)$weekRow[$i]['gamesTotal']) {
 				//not all picks were entered
-				$tmpStyle = '';
-				if ((int)$currentWeek == (int)$row['weekNum']) {
+				
+				if ((int)$currentWeek == (int)$weekRow[$i]['weekNum']) {
 					//only show in red if this is the current week
 					$tmpStyle = ' style="color: red;"';
 				}
-				echo '			<div class="bg-warning"'.$tmpStyle.'><b>Missing ' . ((int)$row['gamesTotal'] - sizeof($picks)) . ' / ' . $row['gamesTotal'] . ' picks.</b><br /><a href="entry_form.php?week=' . $row['weekNum'] . '">Enter now &raquo;</a></div>' . "\n";
+				$scoreTotal = '<li><span class="weekDetails-li" ><i class="weekDetails weekDetails-check"></i></span><strong style="color: red;"><b>Missing ' . ((int)$weekRow[$i]['gamesTotal'] - sizeof($picks)) . ' / ' . $weekRow[$i]['gamesTotal'] . ' picks.</b></strong></li>';
 			} else {
 				//all picks were entered
-				echo '			<div class="bg-info" style="color: green;"><b>All picks entered.</b><br /><a href="entry_form.php?week=' . $row['weekNum'] . '">Change your picks &raquo;</a></div>' . "\n";
+				$scoreTotal = '<li><span class="weekDetails-li" ><i class="weekDetails weekDetails-check"></i></span><strong><b>All picks entered. </b></strong><a href="entry_form.php?week=' . $weekRow[$i]['weekNum'] . '"> Change your picks &raquo;</a></li>';
 			}
 		}
-		echo '		</div>'."\n";
-		$i++;
-	}
-	$query->free;
-	?>
-		</div><!-- end col -->
-	</div><!-- end entry-form -->
+            
+        
+?>
+    
+            <div class="row">
+                <div id="content" class="col-md-12 col-xs-12">
+                    <section class="pricing py-5">
+                        <div class="container-fluid">
+                            <div class="row">
+                          <!-- Free Tier -->
+                                <div class="col-lg-12">
+                                    <div class="weekDetails mb-5 mb-lg-0">
+                                        <div class="weekDetails-body">
+                                            
+                                            <h2 class="weekDetails-title text-uppercase text-center">Week <?=$weekRow[$i]['weekNum']?></h2>
+                                            
+                                            <h3 class="weekDetails-price text-center"><strong>Cutoff Time: <span class="period"><?=date('n/j g:i a', strtotime($weekRow[$i]['cutoffTime']))?></span></strong></h3>
+                                            <hr>
+                                            <ul class="weekDetails-ul">
+                                                <?=$scoreTotal;?>
+                                                <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>First Game Starts <?=date('n/j g:i a', strtotime($weekRow[$i]['firstGameTime']))?></strong></li>
+                                                <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong><?=$weekRow[$i]['gamesTotal']?> games this week.</strong></li>
+                                            </ul>
+                                            <a href="entry_form.php" class="btn btn-block btn-primary text-uppercase">Enter  Week <?=$weekRow[$i]['weekNum']?> Picks Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
 <?php
-}
-
+    $i++;
+    }//end while
+} //end if
 require('includes/footer.php');

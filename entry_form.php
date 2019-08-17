@@ -1,7 +1,9 @@
 <?php
 require_once('includes/application_top.php');
 require('includes/classes/team.php');
-
+echo $_POST['action'];
+include('includes/header.php');
+$activeTab = 'entry_form';
 if ($_POST['action'] == 'Submit') {
 	$week = $_POST['week'];
 	$cutoffDateTime = getCutoffDateTime($week);
@@ -26,11 +28,10 @@ if ($_POST['action'] == 'Submit') {
 			}
 		}
 	}
-	$query->free;
 	header('Location: results.php?week=' . $_POST['week']);
 	exit;
 } else {
-	$week = (int)$_GET['week'];
+	$week = (int)$_GET['week'] ? (int)$_GET['week'] : '' ;
 	if (empty($week)) {
 		//get current week
 		$week = (int)getCurrentWeek();
@@ -39,74 +40,28 @@ if ($_POST['action'] == 'Submit') {
 	$firstGameTime = getFirstGameTime($week);
 }
 
-include('includes/header.php');
-?>
-	<script type="text/javascript">
-	function checkform() {
-		//make sure all picks have a checked value
-		var f = document.entryForm;
-		var allChecked = true;
-		var allR = document.getElementsByTagName('input');
-		for (var i=0; i < allR.length; i++) {
-			if(allR[i].type == 'radio') {
-				if (!radioIsChecked(allR[i].name)) {
-					allChecked = false;
-				}
-			}
-	    }
-	    if (!allChecked) {
-			return confirm('One or more picks are missing for the current week.  Do you wish to submit anyway?');
-		}
-		return true;
-	}
-	function radioIsChecked(elmName) {
-		var elements = document.getElementsByName(elmName);
-		for (var i = 0; i < elements.length; i++) {
-			if (elements[i].checked) {
-				return true;
-			}
-		}
-		return false;
-	}
-	function checkRadios() {
-	  $('input[type=radio]').each(function(){
-	   //alert($(this).attr('checked'));
-	    var targetLabel = $('label[for="'+$(this).attr('id')+'"]');
-	    console.log($(this).attr('id')+': '+$(this).is(':checked'));
-	    if ($(this).is(':checked')) {
-	      //console.log(targetLabel);
-	     targetLabel.addClass('highlight');
-	    } else {
-	      targetLabel.removeClass('highlight');
-	    }
-	  });
-	}
-	$(function() {
-		checkRadios();
-		$('input[type=radio]').click(function(){
-		  checkRadios();
-		});
-		$('label').click(function(){
-		  checkRadios();
-		});
-	});
-	</script>
-<nav aria-label="Page navigation example">
 
-  <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-      <a class="page-link" href="#" tabindex="-1">Jump to week</a>
-    </li>
-    <?php
-        $i = 1;
-        while ($i <= 17) {
-            $weekLink = $week == $i ? '<li class="page-item active"><span class="page-link">'.$i.'<span class="sr-only">(current)</span></span></li>':'<li class="page-item"><a class="page-link" href="entry_form.php?week='.$i.'">'.$i.'</a></li>';
-            echo $weekLink;
-            $i++;
-        }
-    ?>
-  </ul>
-</nav>
+?>
+
+
+
+        <div class="row">
+            <div class="dropdown" class="col-xs-6">
+              <button class="btn btn-primary dropdown-toggle" type="button" id="weekMenu" data-toggle="dropdown">Select Week
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="weekMenu">
+                <?php
+                    $i = 1;
+                    while ($i <= 17) {
+                        $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
+                        echo $weekLink;
+                        $i++;
+                    }
+
+                ?>
+                </ul>
+            </div>
+        </div>
 		<div class="row">
 
 			<div id="content" class="col-md-12 col-xs-12">
@@ -125,7 +80,6 @@ include('includes/header.php');
 	} else {
 		$showPicks = 1;
 	}
-	$query->free;
 
 	//display schedule for week
 	$sql = "select s.*, (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > gameTimeEastern or DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > '" . $cutoffDateTime . "')  as expired ";
@@ -247,7 +201,7 @@ include('includes/header.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-		echo '<p class="noprint"><input type="submit" name="action" value="Submit" /></p>' . "\n";
+		echo '<p class="noprint"><button type="submit" name="action" class="btn btn-primary btn-lg btn-block">Submit Picks</button></p>' . "\n";
 		echo '</form>' . "\n";
 	}
 
@@ -259,3 +213,6 @@ echo '	</div>'."\n"; // end entry-form row
 //echo '</div>';
 
 include('includes/footer.php');
+?>
+<script src="js/entry_form.js"></script>
+</

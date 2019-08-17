@@ -1,12 +1,8 @@
-<?php
-header('Content-Type:text/html; charset=utf-8');
-header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta tag when under Local Intranet
-?>
 <!DOCTYPE html>
 <html xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 	<title>NFL Pick 'Em <?php echo SEASON_YEAR; ?></title>
 
 	<base href="<?php echo SITE_URL; ?>" />
@@ -19,7 +15,6 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 	<script type="text/javascript" src="js/modernizr-2.7.0.min.js"></script>
 	<script type="text/javascript" src="js/svgeezy.min.js"></script>
 	<script type="text/javascript" src="js/jquery.main.js"></script>
-
 	<script type="text/javascript" src="js/jquery.jclock.js"></script>
 	<script type="text/javascript" src="js/jquery.plugin.min.js"></script>
 	<script type="text/javascript" src="js/jquery.countdown.min.js"></script>
@@ -44,6 +39,7 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 						</div>
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
+                                                           
 								<li<?php echo (($activeTab == 'home') ? ' class="active"' : ''); ?>><a href="./">Home</a></li>
 								<?php if ($user->userName !== 'admin') { ?>
 								<li><a href="entry_form.php<?php echo ((!empty($_GET['week'])) ? '?week=' . (int)$_GET['week'] : ''); ?>">Entry Form</a></li>
@@ -77,8 +73,44 @@ header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta
 								</li>
 							</ul>
 						</div><!--/.nav-collapse -->
+                                                        <div class="row">
+                <!-- start countdown code - http://keith-wood.name/countdown.html -->
+		<?php
+		if ($firstGameTime !== $cutoffDateTime && !$firstGameExpired) {
+		?>
+                <div class="col-md-6 col-xs-12">
+                    <div id="firstGame" class="countdown bg-success"></div>
+                    <script type="text/javascript">
+                    //set up countdown for first game
+                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($firstGameTime)); ?>");
+                    firstGameTime.setHours(firstGameTime.getHours() );
+                    $('#firstGame').countdown({until: firstGameTime, description: 'until first game is locked'});
+                    </script>
+                </div>
+		<?php
+		}else{
+                    //first game is expired
+                }
+		if (!$weekExpired) {
+		?>
+                <div class="col-md-6 col-xs-12">
+                    <div id="picksLocked" class="countdown bg-danger"></div>
+                    <script type="text/javascript">
+                    //set up countdown for picks lock time
+                    var picksLockedTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($cutoffDateTime)); ?>");
+                    picksLockedTime.setHours(picksLockedTime.getHours() );
+                    $('#picksLocked').countdown({until: picksLockedTime, description: 'until week <?php echo $week; ?> is locked'});
+                    </script>
+                </div>
+		<?php
+                } else {
+			//current week is expired
+		}
+		?>
+        </div>
 					</div>
 				</div>
+                                
 			</div>
 		</header>
 		<div id="pageContent">

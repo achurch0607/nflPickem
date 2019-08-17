@@ -15,9 +15,9 @@ function getCurrentWeek() {
 			$row = $query2->fetch_assoc();
 			return $row['weekNum'];
 		}
-		$query2->free;
+		
 	}
-	$query->free;
+	
 	die('Error getting current week: ' . $mysqli->error);
 }
 
@@ -30,7 +30,7 @@ function getCutoffDateTime($week) {
 		$row = $query->fetch_assoc();
 		return $row['gameTimeEastern'];
 	}
-	$query->free;
+	
 //	die('Error getting cutoff date: ' . $mysqli->error);
 }
 
@@ -43,8 +43,8 @@ function getFirstGameTime($week) {
 		$row = $query->fetch_assoc();
 		return $row['gameTimeEastern'];
 	}
-	$query->free;
-//	die('Error getting first game time: ' . $mysqli->error);
+	
+	die('Error getting first game time: ' . $mysqli->error);
 }
 
 function getPickID($gameID, $userID) {
@@ -58,7 +58,7 @@ function getPickID($gameID, $userID) {
 	} else {
 		return false;
 	}
-	$query->free;
+
 	die('Error getting pick id: ' . $mysqli->error);
 }
 
@@ -78,7 +78,7 @@ function getGameIDByTeamName($week, $teamName) {
 	} else {
 		return false;
 	}
-	$query->free;
+
 	die('Error getting game id: ' . $mysqli->error);
 }
 
@@ -99,7 +99,7 @@ function getGameIDByTeamID($week, $teamID) {
 	} else {
 		return false;
 	}
-	$query->free;
+	
 	die('Error getting game id: ' . $mysqli->error);
 }
 
@@ -112,10 +112,12 @@ function getUserPicks($week, $userID) {
 	$sql .= "inner join " . DB_PREFIX . "schedule s on p.gameID = s.gameID ";
 	$sql .= "where s.weekNum = " . $week . " and p.userID = " . $userID . ";";
 	$query = $mysqli->query($sql);
-	while ($row = $query->fetch_assoc()) {
-		$picks[$row['gameID']] = array('pickID' => $row['pickID'], 'points' => $row['points']);
-	}
-	$query->free;
+        if ($query) {
+            while ($row = $query->fetch_assoc()) {
+                    $picks[$row['gameID']] = array('pickID' => $row['pickID'], 'points' => $row['points']);
+            }
+        }
+	
 	return $picks;
 }
 
@@ -139,7 +141,6 @@ function getUserScore($week, $userID) {
 			$games[$row['gameID']]['winnerID'] = $row['visitorID'];
 		}
 	}
-	$query->free;
 
 	//loop through player picks & calculate score
 	$sql = "select p.userID, p.gameID, p.pickID, p.points ";
@@ -155,7 +156,6 @@ function getUserScore($week, $userID) {
 			$score++;
 		}
 	}
-	$query->free;
 
 	return $score;
 }
@@ -169,7 +169,6 @@ function getGameTotal($week) {
 		$row = $query->fetch_assoc();
 		return $row['gameTotal'];
 	}
-	$query->free;
 	die('Error getting game total: ' . $mysqli->error);
 }
 
@@ -182,7 +181,6 @@ function gameIsLocked($gameID) {
 		$row = $query->fetch_assoc();
 		return $row['expired'];
 	}
-	$query->free;
 	die('Error getting game locked status: ' . $mysqli->error);
 }
 
@@ -195,7 +193,6 @@ function hidePicks($userID, $week) {
 		$row = $query->fetch_assoc();
 		return (($row['showPicks']) ? 0 : 1);
 	}
-	$query->free;
 	return 0;
 }
 
@@ -215,7 +212,6 @@ function getLastCompletedWeek() {
 			$lastCompletedWeek = (int)$row['weekNum'];
 		}
 	}
-	$query->free;
 	return $lastCompletedWeek;
 }
 
@@ -241,7 +237,6 @@ function calculateStats() {
 				$games[$row['gameID']]['winnerID'] = $row['visitorID'];
 			}
 		}
-		$query->free;
 
 		//get array of player picks
 		$playerPicks = array();
@@ -268,7 +263,6 @@ function calculateStats() {
 				$playerTotals[$row['userID']][score] += 0;
 			}
 		}
-		$query->free;
 
 		//get winners & highest score for current week
 		$highestScore = 0;
@@ -360,7 +354,6 @@ function getTeamRecord($teamID) {
 	} else {
 		return '';
 	}
-	$query->free;
 }
 
 function getTeamStreak($teamID) {
@@ -400,7 +393,6 @@ function getTeamStreak($teamID) {
 	} else {
 		return '';
 	}
-	$query->free;
 }
 
 function updateFromBuildSchedule($schedule)
@@ -415,4 +407,26 @@ function updateFromBuildSchedule($schedule)
 echo $sql;
     $mysqli->multi_query($sql) or die('Error inserting Schedule: ' . $mysqli->error);
    
+}
+function indexPicksSummary()
+{
+        global $mysqli;
+    	$sql = "select s.weekNum, count(s.gameID) as gamesTotal,";
+	$sql .= " min(s.gameTimeEastern) as firstGameTime,";
+	$sql .= " (select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = s.weekNum and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1) as cutoffTime,";
+	$sql .= " (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > (select gameTimeEastern from " . DB_PREFIX . "schedule where weekNum = s.weekNum and DATE_FORMAT(gameTimeEastern, '%W') = 'Sunday' order by gameTimeEastern limit 1)) as expired ";
+	$sql .= "from " . DB_PREFIX . "schedule s ";
+	$sql .= "group by s.weekNum ";
+	$sql .= "order by s.weekNum;";
+	$query = $mysqli->query($sql);
+        	if ($query->num_rows > 0) {
+                    while ($row = $query->fetch_assoc()) {
+                        $return[$row['weekNum']] = $row;
+                    }
+                
+                }
+//        var_dump($return);
+        
+        return $return;
+        
 }
