@@ -49,9 +49,9 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 			<h2 class="form-signin-heading">NFL Pick 'Em Login</h2>
 			<?php
 			//print_r($_POST);
-			if ($_GET['login'] == 'failed') {
+			if ($_POST['login'] == 'failed') {
 				echo '<div class="responseError">Oops!  Login failed, please try again.</div><br />';
-			} else if ($_GET['signup'] == 'no') {
+			} else if ($_POST['signup'] == 'no') {
 				echo '<div class="responseError">Sorry, signup is disabled.  Please contact your administrator.</div><br />';
 			}
 			?>

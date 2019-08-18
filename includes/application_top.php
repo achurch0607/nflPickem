@@ -60,7 +60,7 @@ if (!in_array(basename($_SERVER['PHP_SELF']), $okFiles) && (empty($_SESSION['log
 	$user = $login->get_user($_SESSION['loggedInUser']);
 }
 
-if ($_SESSION['loggedInUser'] === 'admin' && $_SESSION['logged'] === 'yes') {
+if (isset($_SESSION) && $_SESSION['loggedInUser'] === 'admin' && $_SESSION['logged'] === 'yes') {
 	//$isAdmin = 1;
 } else {
 	//$isAdmin = 0;
