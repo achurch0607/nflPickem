@@ -2,7 +2,7 @@
 		</div><!-- end pageContent row -->
 		<div id="footer">
 			<div id="donate">
-				<?php include('includes/donate_button.inc.php'); ?>
+				 <?= date("Y") . ' ' . SITE_URL; ?>
 			</div>
 		</div><!-- end pageContent row -->
 	</div>

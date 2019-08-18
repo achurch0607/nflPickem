@@ -48,6 +48,13 @@ section.pricing {
   transition: all 0.2s;
 }
 
+.bodyBackground {
+  background-image: url('../images/nflBackground.jpg');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 /* Hover Effects on Card */
 
 @media (min-width: 992px) {
@@ -59,4 +66,8 @@ section.pricing {
   .pricing .weekDetails:hover .btn {
     opacity: 1;
   }
+}
+
+body, html {
+  height: 100%;
 }

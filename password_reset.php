@@ -46,7 +46,7 @@ if (is_array($_POST) && sizeof($_POST) > 0) {
 	}
 	$query->free;
 }
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+?><!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -56,6 +56,7 @@ if (is_array($_POST) && sizeof($_POST) > 0) {
 
 	<base href="<?php echo SITE_URL; ?>" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="css/custom.css" />
 	<!--link rel="stylesheet" type="text/css" media="all" href="css/all.css" /-->
 	<!--link rel="stylesheet" type="text/css" media="screen" href="css/jquery.countdown.css" /-->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
@@ -74,17 +75,17 @@ if (is_array($_POST) && sizeof($_POST) > 0) {
 	</style>
 </head>
 
-<body>
+<body class='bodyBackground'>
 	<div class="container">
 		<form class="form-password-reset" role="form" action="password_reset.php" method="post">
 			<h2 class="form-password-reset-heading">Password Reset</h2>
 			<?php if(isset($display)) echo $display; ?>
-			<p>Enter your name and email address, and a new password will be generated and sent to you.</p>
-			<p><input type="text" name="firstname" class="form-control" placeholder="First Name" required autofocus />
+			<p style="color:white;">Enter your name and email address, and a new password will be generated and sent to you.</p>
+			<p style="color:white;"><input type="text" name="firstname" class="form-control" placeholder="First Name" required autofocus />
 			<input type="email" name="email" class="form-control" placeholder="Email Address" required /></p>
 			<!--label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label-->
-			<p><button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button></p>
-			<p><a href="login.php">Log In</a></p>
+			<p style="color:white;"><button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button></p>
+			<p style="color:white;"><a href='login.php' class="btn btn-sm btn-primary btn-block" >Back To Login</a></p>
 		</form>
 
     </div> <!-- /container -->

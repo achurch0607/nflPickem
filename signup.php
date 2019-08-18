@@ -84,6 +84,7 @@ if (isset($_POST['submit'])) {
 
 	<base href="<?php echo SITE_URL; ?>" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="css/custom.css" />
 	<!--link rel="stylesheet" type="text/css" media="all" href="css/all.css" /-->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
@@ -101,7 +102,7 @@ if (isset($_POST['submit'])) {
 	</style>
 </head>
 
-<body>
+<body class='bodyBackground'>
 	<div class="container">
 		<form class="form-signin" role="form" action="signup.php" method="POST">
 			<h1>NFL Pick 'Em Signup</h1>
@@ -110,19 +111,20 @@ if(isset($display)) {
 	echo $display;
 }
 ?>
-			<p><label for="firstname">First Name:</label>
+                        <p style="color:white;"><label for="firstname">First Name:</label>
 			<input type="text" name="firstname" value="<?php echo $_POST['firstname']; ?>" class="form-control" placeholder="First Name" required autofocus /></p>
-			<p><label for="lastname">Last Name:</label>
+			<p style="color:white;"><label for="lastname">Last Name:</label>
 			<input type="text" name="lastname" value="<?php echo $_POST['lastname']; ?>" class="form-control" placeholder="Last Name" required /></p>
-			<p><label for="email">Email:</label>
+			<p style="color:white;"><label for="email">Email:</label>
 			<input type="email" name="email" value="<?php echo $_POST['email']; ?>" class="form-control" placeholder="Email" required /></p>
-			<p><label for="username">User Name:</label>
+			<p style="color:white;"><label for="username">User Name:</label>
 			<input type="text" name="username" value="<?php echo $_POST['username']; ?>" class="form-control" placeholder="User Name" /></p>
-			<p><label for="password">Password:</label>
+			<p style="color:white;"><label for="password">Password:</label>
 			<input type="password" name="password" value="" class="form-control" placeholder="Password" required /></p>
-			<p>Confirm Password:</label>
+                        <p style="color:white;"><label for="password2">Confirm Password:</label>
 			<input type="password" name="password2" value="" class="form-control" placeholder="Password (again)" required /></p>
 			<p><input type="submit" name="submit" value="Submit" class="btn btn-lg btn-primary btn-block" /></p>
+                        <p style="color:white;"><a href='login.php' class="btn btn-sm btn-primary btn-block" >Back To Login</a></p>
 		</form>
 
     </div> <!-- /container -->

@@ -33,7 +33,7 @@ class Login{
 			$_SESSION['logged'] = 'yes';
 			$_SESSION['loggedInUser'] = $user->userName;
 			$_SESSION['is_admin'] = $user->is_admin;
-			header('Location: '.SITE_URL);
+			header('Location: /');
 			exit;
 		} else {
 			$_SESSION = array();

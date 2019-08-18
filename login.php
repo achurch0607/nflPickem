@@ -24,6 +24,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 
 	<base href="<?php echo SITE_URL; ?>" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="css/custom.css" />
 	<!--link rel="stylesheet" type="text/css" media="all" href="css/all.css" /-->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
@@ -42,7 +43,8 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 </head>
 
 <body>
-	<div class="container">
+    <div class='bodyBackground'>
+    <div class="container">
 		<form class="form-signin" role="form" action="login.php" method="POST">
 			<h2 class="form-signin-heading">NFL Pick 'Em Login</h2>
 			<?php
@@ -53,18 +55,19 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 				echo '<div class="responseError">Sorry, signup is disabled.  Please contact your administrator.</div><br />';
 			}
 			?>
-			<p><input type="text" name="username" class="form-control" placeholder="Username" required autofocus />
+			<p style="color:white;"><input type="text" name="username" class="form-control" placeholder="Username" required autofocus />
 			<input type="password" name="password" class="form-control" placeholder="Password" required /></p>
 			<!--label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label-->
 			<p><button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button></p>
 			<?php
 			if (ALLOW_SIGNUP && SHOW_SIGNUP_LINK) {
-				echo '<p><a href="signup.php">Click here to sign up for an account</a></p>';
+				
+                                echo '<p style="color:white;"><a href="signup.php" class="btn btn-sm btn-primary btn-block" >Create Account</a></p>';
 			}
 			?>
-			<p>Having trouble logging in?  Click here to <a href="password_reset.php">reset your password</a>.</p>
+			<p style="color:white;"><a href="password_reset.php" class="btn btn-sm btn-primary btn-block" >Forgot Your Password?</a></p>
 		</form>
-
+    </div>
     </div> <!-- /container -->
 </body>
 </html>
