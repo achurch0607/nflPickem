@@ -1,10 +1,9 @@
 <?php
 require_once('includes/application_top.php');
 require('includes/classes/team.php');
-echo $_POST['action'];
-include('includes/header.php');
-$activeTab = 'entry_form';
+
 if ($_POST['action'] == 'Submit') {
+   
 	$week = $_POST['week'];
 	$cutoffDateTime = getCutoffDateTime($week);
 
@@ -39,34 +38,46 @@ if ($_POST['action'] == 'Submit') {
 	$cutoffDateTime = getCutoffDateTime($week);
 	$firstGameTime = getFirstGameTime($week);
 }
-
-
+$activeTab = 'entry_form';
+include('includes/header.php');
 ?>
 
 
+        
 
-        <div class="row">
-            <div class="dropdown" class="col-xs-6">
-              <button class="btn btn-primary dropdown-toggle" type="button" id="weekMenu" data-toggle="dropdown">Select Week
-              <span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="weekMenu">
-                <?php
-                    $i = 1;
-                    while ($i <= 17) {
-                        $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
-                        echo $weekLink;
-                        $i++;
-                    }
+            
+        
+    <div class="row">
 
-                ?>
-                </ul>
-            </div>
+<div class="row">
+    <div class="col-md-12 school-options-dropdown text-center">
+        <div class="dropdown btn-group">
+
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select A Week
+              <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                             <?php
+                          $i = 1;
+                          while ($i <= 17) {
+                              $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
+                              echo $weekLink;
+                              $i++;
+                          }
+
+                      ?>
+            </ul>
+
         </div>
-		<div class="row">
-
-			<div id="content" class="col-md-12 col-xs-12">
-				<h2>Week <?php echo $week; ?> - Make Your Picks:</h2>
-				<p>Please make your picks below for each game.</p>
+    </div>
+</div>
+                    <div class="row">
+            
+                                <h2 class="text-center"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Week  <?php echo $week; ?> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></h2>
+                                <p class="text-center">Make Your Picks Below</p>
+            
+                    </div>
 	<?php
 	//get existing picks
 	$picks = getUserPicks($week, $user->userID);
@@ -80,6 +91,7 @@ if ($_POST['action'] == 'Submit') {
 	} else {
 		$showPicks = 1;
 	}
+	$query->free;
 
 	//display schedule for week
 	$sql = "select s.*, (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > gameTimeEastern or DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > '" . $cutoffDateTime . "')  as expired ";
@@ -119,7 +131,7 @@ if ($_POST['action'] == 'Submit') {
 				echo '					<div class="col-xs-12 center"><b>Final: ' . $row['visitorScore'] . ' - ' . $row['homeScore'] . '</b></div>' . "\n";
 			} else {
 				//else show time of game
-				echo '					<div class="col-xs-12 center">' . date('D n/j g:i a', strtotime($row['gameTimeEastern'])) . ' ET</div>' . "\n";
+				echo '					<div class="col-xs-12 center">' . date('D n/j g:i a', strtotime( '-2 hours', strtotime($row['gameTimeEastern']))) . ' MST</div>' . "\n";
 			}
 			echo '					</div>'."\n";
 			echo '					<div class="row versus">' . "\n";
@@ -201,7 +213,7 @@ if ($_POST['action'] == 'Submit') {
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-		echo '<p class="noprint"><button type="submit" name="action" class="btn btn-primary btn-lg btn-block">Submit Picks</button></p>' . "\n";
+		echo '<p class="noprint"><button type="submit" name="action" value="Submit" class="btn btn-primary btn-lg btn-block">Submit Picks</button></p>' . "\n";
 		echo '</form>' . "\n";
 	}
 
@@ -215,4 +227,3 @@ echo '	</div>'."\n"; // end entry-form row
 include('includes/footer.php');
 ?>
 <script src="js/entry_form.js"></script>
-</

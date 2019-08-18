@@ -69,7 +69,7 @@ if ($user->userName == 'admin') {
                                             
                                             <h2 class="weekDetails-title text-uppercase text-center">Week <?=$weekRow[$i]['weekNum']?></h2>
                                             
-                                            <h3 class="weekDetails-price text-center"><strong>Cutoff Time: <span class="period"><?=date('n/j g:i a', strtotime($weekRow[$i]['cutoffTime']))?></span></strong></h3>
+                                            <h3 class="weekDetails-price text-center"><strong>Cutoff Time: <span class="period"><?=date('n/j g:i a', strtotime('-2 hours',strtotime($weekRow[$i]['cutoffTime'])))?> MST</span></strong></h3>
                                             <hr>
                                             <ul class="weekDetails-ul">
                                                 <?=$scoreTotal;?>

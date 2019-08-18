@@ -13,23 +13,7 @@ $weekExpired = ((date("U", time()+(SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($
 include('includes/header.php');
 //include('includes/column_right.php');
 
-//display week nav
-$sql = "select distinct weekNum from " . DB_PREFIX . "schedule order by weekNum;";
-$query = $mysqli->query($sql);
-$weekNav = '<div class="navbar3"><b>Go to week:</b> ';
-$i = 0;
-while ($row = $query->fetch_assoc()) {
-	if ($i > 0) $weekNav .= ' | ';
-	if ($week !== (int)$row['weekNum']) {
-		$weekNav .= '<a href="results.php?week=' . $row['weekNum'] . '">' . $row['weekNum'] . '</a>';
-	} else {
-		$weekNav .= $row['weekNum'];
-	}
-	$i++;
-}
-$query->free;
-$weekNav .= '</div>' . "\n";
-echo $weekNav;
+
 
 //get array of games
 $allScoresIn = true;
@@ -97,7 +81,34 @@ $(document).ready(function(){
 <style type="text/css">
 .pickTD { width: 24px; font-size: 9px; text-align: center; }
 </style>
-<h1>Results - Week <?php echo $week; ?></h1>
+<div class="row">
+    <div class="col-md-12 school-options-dropdown text-center">
+        <div class="dropdown btn-group">
+
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select A Week
+              <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu">
+                             <?php
+                          $i = 1;
+                          while ($i <= 17) {
+                              $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
+                              echo $weekLink;
+                              $i++;
+                          }
+
+                      ?>
+            </ul>
+
+        </div>
+    </div>
+</div>
+                    <div class="row">
+            
+                                <h2 class="text-center">Reuslts - Week <?php echo $week; ?></h2>
+            
+                    </div>
 <?php
 if (!$allScoresIn) {
 	echo '<p style="font-weight: bold; color: #DBA400;">* Not all scores have been updated for week ' . $week . ' yet.</p>' . "\n";
