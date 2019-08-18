@@ -25,6 +25,8 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 	<base href="<?php echo SITE_URL; ?>" />
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" media="all" href="css/custom.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="css/all.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="css/jquery.countdown.css" />
 	<!--link rel="stylesheet" type="text/css" media="all" href="css/all.css" /-->
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
@@ -32,6 +34,9 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 	<script type="text/javascript" src="js/modernizr-2.7.0.min.js"></script>
 	<script type="text/javascript" src="js/svgeezy.min.js"></script>
 	<script type="text/javascript" src="js/jquery.main.js"></script>
+        <script type="text/javascript" src="js/jquery.jclock.js"></script>
+	<script type="text/javascript" src="js/jquery.plugin.min.js"></script>
+	<script type="text/javascript" src="js/jquery.countdown.min.js"></script>
 	<style type="text/css">
 	body { background-color: #eee; }
 	.form-signin {
@@ -67,6 +72,15 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 			?>
 			<p style="color:white;"><a href="password_reset.php" class="btn btn-sm btn-primary btn-block" >Forgot Your Password?</a></p>
 		</form>
+
+                    <div id="firstGame" class="countdown bg-success"></div>
+                    <script type="text/javascript">
+                    //set up countdown for first game
+                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($firstGameTime)); ?>");
+                    firstGameTime.setHours(firstGameTime.getHours() );
+                    $('#firstGame').countdown({until: firstGameTime, description: 'Until Michael Eugene Schaaf Endures A 16 Week ASS KICKING!'});
+                    </script>
+
     </div>
     </div> <!-- /container -->
 </body>
