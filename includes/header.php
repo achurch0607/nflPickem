@@ -82,7 +82,7 @@
                     <div id="firstGame" class="countdown bg-success"></div>
                     <script type="text/javascript">
                     //set up countdown for first game
-                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($firstGameTime)); ?>");
+                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime('-2 hours',strtotime($firstGameTime))); ?>");
                     firstGameTime.setHours(firstGameTime.getHours() );
                     $('#firstGame').countdown({until: firstGameTime, description: 'until first game is locked'});
                     </script>
@@ -97,7 +97,7 @@
                     <div id="picksLocked" class="countdown bg-danger"></div>
                     <script type="text/javascript">
                     //set up countdown for picks lock time
-                    var picksLockedTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($cutoffDateTime)); ?>");
+                    var picksLockedTime = new Date("<?php echo date('F j, Y H:i:00', strtotime('-2 hours',strtotime($cutoffDateTime))); ?>");
                     picksLockedTime.setHours(picksLockedTime.getHours() );
                     $('#picksLocked').countdown({until: picksLockedTime, description: 'until week <?php echo $week; ?> is locked'});
                     </script>

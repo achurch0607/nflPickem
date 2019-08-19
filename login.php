@@ -76,7 +76,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
                     <div id="firstGame" class="countdown bg-success"></div>
                     <script type="text/javascript">
                     //set up countdown for first game
-                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($firstGameTime)); ?>");
+                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime('-2 hours',strtotime($firstGameTime))); ?>");
                     firstGameTime.setHours(firstGameTime.getHours() );
                     $('#firstGame').countdown({until: firstGameTime, description: 'Until Week 1 Starts!'});
                     </script>
