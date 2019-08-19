@@ -78,7 +78,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
                     //set up countdown for first game
                     var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime($firstGameTime)); ?>");
                     firstGameTime.setHours(firstGameTime.getHours() );
-                    $('#firstGame').countdown({until: firstGameTime, description: 'Until Michael Eugene Schaaf Endures A 16 Week ASS KICKING!'});
+                    $('#firstGame').countdown({until: firstGameTime, description: 'Until Week 1 Starts!'});
                     </script>
 
     </div>
