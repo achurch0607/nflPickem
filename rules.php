@@ -3,7 +3,8 @@ require_once('includes/application_top.php');
 require_once('includes/header.php');
 ?>
 <h1>Rules / Help</h1>
-
+<p>You can pay  with <a href='https://venmo.com/code?user_id=2552032405749760894'>Venmo</a> (Please include your pickem user ID)</p>
+<p>You can pay with<a href='paypal.me/AdamChurchUT'>Paypal </a> </p>
 <h2>Basics</h2>
 <p>The concept of NFL Pick 'Em is simple: pick the winners of each game each week.</p>
 <p>Entry fee for the season is $20 with possible weekly pot of additional $10.</p>
@@ -24,6 +25,8 @@ require_once('includes/header.php');
 <p>2nd 20%</p>
 <p>3rd 10%</p>
 <p> Weekly payouts TBD based on number of players</p>
+<p>You can pay  with <a href='https://venmo.com/code?user_id=2552032405749760894'>Venmo</a> (Please include your pickem user ID)</p>
+<p>You can pay with<a href='paypal.me/AdamChurchUT'>Paypal </a> </p>
 <p>If you have any questions, please contact the <a href="mailto:<?php echo $adminUser->email; ?>">Administrator</a></p>
 <?php
 require('includes/footer.php');
