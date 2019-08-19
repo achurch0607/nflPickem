@@ -73,7 +73,7 @@ if ($user->userName == 'admin') {
                                             <hr>
                                             <ul class="weekDetails-ul">
                                                 <?=$scoreTotal;?>
-                                                <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>First Game Starts <?=date('n/j g:i a', strtotime($weekRow[$i]['firstGameTime']))?></strong></li>
+                                                <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>First Game Starts <?=date('n/j g:i a', strtotime('-2 hours',strtotime($weekRow[$i]['firstGameTime'])))?> MST</strong></li>
                                                 <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong><?=$weekRow[$i]['gamesTotal']?> games this week.</strong></li>
                                             </ul>
                                             <a href="entry_form.php?week=<?=$weekRow[$i]['weekNum']?>" class="btn btn-block btn-primary text-uppercase">Enter  Week <?=$weekRow[$i]['weekNum']?> Picks Now</a>
