@@ -34,7 +34,7 @@ for ($week = 1; $week <= $weeks; $week++) {
 			'homeID' => $home_team,
 			'visitorID' => $away_team
 		);
-                updateFromBuildSchedule($schedule);
+//                updateFromBuildSchedule($schedule);
 	}
         
 }
