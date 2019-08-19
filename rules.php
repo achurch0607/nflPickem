@@ -26,7 +26,7 @@ require_once('includes/header.php');
 <p>3rd 10%</p>
 <p> Weekly payouts TBD based on number of players</p>
 <p>You can pay  with <a href='https://venmo.com/code?user_id=2552032405749760894'>Venmo</a> (Please include your pickem user ID)</p>
-<p>You can pay with<a href='paypal.me/AdamChurchUT'>Paypal </a> </p>
+<p>You can pay with<a href='https://paypal.me/AdamChurchUT'>Paypal </a> </p>
 <p>If you have any questions, please contact the <a href="mailto:<?php echo $adminUser->email; ?>">Administrator</a></p>
 <?php
 require('includes/footer.php');
