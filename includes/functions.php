@@ -433,3 +433,14 @@ function indexPicksSummary()
         return $return;
         
 }
+
+function buildHistoricalTables($data)
+{
+    global $mysqli;
+
+    foreach($data as   $v){
+            $sql = "INSERT  INTO " . DB_PREFIX . "historical_schedule (gameID, weekNum, gameTimeEastern, homeID, homeScore, visitorID, visitorScore, overtime)";
+            $sql.= "VALUES(NULL," . $v['week'] . ",'" . $v['eid']. "','".$v['h']."','" .$v['hs']."','".$v['v']."','".$v['vs']."','".$v['ot']."')";
+            $mysqli->multi_query($sql) or die('Error inserting Historical Schedule: ' . $mysqli->error);
+    }
+}
