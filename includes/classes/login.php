@@ -37,7 +37,7 @@ class Login{
 			exit;
 		} else {
 			$_SESSION = array();
-			header('Location: '.SITE_URL.'login.php?login=failed');
+			header('Location: '.SITE_URL.'/login.php?login=failed');
 			exit;
 		}
 	}
