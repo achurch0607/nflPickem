@@ -52,13 +52,13 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
     <div class="container">
 		<form class="form-signin" role="form" action="login.php" method="POST">
 			<h2 class="form-signin-heading">NFL Pick 'Em Login</h2>
+                      
 			<?php
-			//print_r($_POST);
-			if ($_POST['login'] == 'failed') {
-				echo '<div class="responseError">Oops!  Login failed, please try again.</div><br />';
-			} else if ($_POST['signup'] == 'no') {
-				echo '<div class="responseError">Sorry, signup is disabled.  Please contact your administrator.</div><br />';
-			}
+			if ($_REQUEST['login'] == 'failed') {
+                            
+				echo '<div class="text-center"><img src="/images/art_holst_nfl.jpg" class="img-thumbnail"></div>';
+                                echo '<div class="text-center"><h2 style="color:yellow; border:black;"> LOGIN FAILED! TRY AGAIN</h2></div>';
+			} 
 			?>
 			<p style="color:white;"><input type="text" name="username" class="form-control" placeholder="Username" required autofocus />
 			<input type="password" name="password" class="form-control" placeholder="Password" required /></p>
