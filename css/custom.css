@@ -49,11 +49,11 @@ section.pricing {
 }
 
 .bodyBackground {
-  background: url('../images/nflBackground.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
+  background-image: url('../images/nflBackground.jpg');
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
-  -o-background-size: cover;
 }
 /* Hover Effects on Card */
 
