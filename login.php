@@ -57,7 +57,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 			if ($_REQUEST['login'] == 'failed') {
                             
 				echo '<div class="text-center"><img src="/images/art_holst_nfl.jpg" class="img-thumbnail"></div>';
-                                echo '<div class="text-center"><h2 style="color:yellow; border:black;"> LOGIN FAILED! TRY AGAIN</h2></div>';
+                                echo '<div class="text-center"><h2 style="color:yellow;"> LOGIN FAILED!</h2></div>';
 			} 
 			?>
 			<p style="color:white;"><input type="text" name="username" class="form-control" placeholder="Username" required autofocus />
