@@ -1,5 +1,7 @@
 <?php
+(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('cli only');
 require('includes/application_top.php');
+
 
 $week = (int)$_GET['week'];
 
