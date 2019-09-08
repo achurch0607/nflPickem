@@ -45,8 +45,7 @@ foreach ($games['gms']['g'] as $gameArray) {
 
 //see how the scores array looks
 //echo '<pre>' . print_r($scores, true) . '</pre>';
-print_r($scores);
-// updateScores($scores);
+ updateScores($scores);
  return;
 
 //game results and winning teams can now be accessed from the scores array
