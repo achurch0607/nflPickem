@@ -11,9 +11,6 @@ $cutoffDateTime = getCutoffDateTime($week);
 $weekExpired = ((date("U", time()+(SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($cutoffDateTime)) ? 1 : 0);
 
 include('includes/header.php');
-//include('includes/column_right.php');
-
-
 
 //get array of games
 $allScoresIn = true;
