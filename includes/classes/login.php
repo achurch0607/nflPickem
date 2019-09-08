@@ -1,7 +1,5 @@
 <?php
 class Login{
-	function Login(){
-	}
 
 	function new_user($user_name, $password, $confirm) {
 		global $crypto;
