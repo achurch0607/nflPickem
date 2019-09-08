@@ -444,3 +444,19 @@ function buildHistoricalTables($data)
             $mysqli->multi_query($sql) or die('Error inserting Historical Schedule: ' . $mysqli->error);
     }
 }
+
+function updateScores($scores){
+    
+    global $mysqli;
+    
+    foreach($scores as $v){
+        
+        $sql = "UPDATE " . DB_PREFIX . "schedule ";
+        $sql .= "SET homeScore = " .$v['homeScore']. ", visitorScore = " .$v['visitorScore']. ", overtime = " .$v['overtime'];
+        $sql .= " WHERE gameID = " .$v['gameID'];
+        
+//        echo $sql;
+//        return;
+        $mysqli->multi_query($sql) or die('Error updating scores: ' . $mysqli->error);
+    }
+}
