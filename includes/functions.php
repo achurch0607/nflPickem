@@ -445,7 +445,7 @@ function buildHistoricalTables($data)
     }
 }
 
-function updateScores($scores){
+function updateScores($scores, $mysqli){
     
     global $mysqli;
     
