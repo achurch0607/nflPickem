@@ -1,29 +1,29 @@
 <?php
-(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('cli only');
-require('includes/functions.php');
+//(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('cli only');
+require('includes/application_top.php');
 
-$mysqli = new mysqli(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die('error connecting to db');
-$mysqli->set_charset('utf8');
-if ($mysqli) {
-	//check for presence of install folder
-	if (is_dir('install')) {
-		//do a query to see if db installed
-		//$testQueryOK = false;
-		$sql = "select * from  " . DB_PREFIX . "teams";
-		//die($sql);
-		if ($query = $mysqli->query($sql)) {
-			//query is ok, display warning
-			$warnings[] = 'For security, please delete or rename the install folder.';
-		} else {
-			//tables not not present, redirect to installer
-			header('location: ./install/');
-			exit;
-		}
-		$query->free();
-	}
-} else {
-	die('Database not connected.  Please check your config file for proper installation.');
-}
+//$mysqli = new mysqli(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE) or die('error connecting to db');
+//$mysqli->set_charset('utf8');
+//if ($mysqli) {
+//	//check for presence of install folder
+//	if (is_dir('install')) {
+//		//do a query to see if db installed
+//		//$testQueryOK = false;
+//		$sql = "select * from  " . DB_PREFIX . "teams";
+//		//die($sql);
+//		if ($query = $mysqli->query($sql)) {
+//			//query is ok, display warning
+//			$warnings[] = 'For security, please delete or rename the install folder.';
+//		} else {
+//			//tables not not present, redirect to installer
+//			header('location: ./install/');
+//			exit;
+//		}
+//		$query->free();
+//	}
+//} else {
+//	die('Database not connected.  Please check your config file for proper installation.');
+//}
 
 //load source code, depending on the current week, of the website into a variable as a string
 $url = "http://www.nfl.com/liveupdate/scorestrip/ss.xml";
@@ -67,7 +67,7 @@ foreach ($games['gms']['g'] as $gameArray) {
 
 //see how the scores array looks
 //echo '<pre>' . print_r($scores, true) . '</pre>';
-print_r($scores);
+//print_r($scores);
  updateScores($scores, $mysqli);
  return;
 

@@ -458,5 +458,7 @@ function updateScores($scores, $mysqli){
 //        echo $sql;
 //        return;
         $mysqli->multi_query($sql) or die('Error updating scores: ' . $mysqli->error);
+       
     }
+     echo 'success';
 }
