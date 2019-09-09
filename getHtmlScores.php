@@ -2,9 +2,6 @@
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('cli only');
 require('includes/application_top.php');
 
-
-$week = (int)$_GET['week'];
-
 //load source code, depending on the current week, of the website into a variable as a string
 $url = "http://www.nfl.com/liveupdate/scorestrip/ss.xml";
 if ($xmlData = file_get_contents($url)) {
@@ -16,6 +13,8 @@ if ($xmlData = file_get_contents($url)) {
 //return;
 //build scores array, to group teams and scores together in games
 $scores = array();
+$week = $games['gms']['@attributes']['w'];
+
 foreach ($games['gms']['g'] as $gameArray) {
 	$game = $gameArray['@attributes'];
 	if ($game['q'] == 'F' || $game['q'] == 'FO') {
@@ -45,7 +44,8 @@ foreach ($games['gms']['g'] as $gameArray) {
 
 //see how the scores array looks
 //echo '<pre>' . print_r($scores, true) . '</pre>';
- updateScores($scores);
+print_r($scores);
+// updateScores($scores);
  return;
 
 //game results and winning teams can now be accessed from the scores array
