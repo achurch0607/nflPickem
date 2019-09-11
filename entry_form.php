@@ -100,6 +100,10 @@ include('includes/header.php');
 	$sql .= "where s.weekNum = " . $week . " ";
 	$sql .= "order by s.gameTimeEastern, s.gameID";
 	//echo $sql;
+        $t = new team('LA');
+//      
+        
+        
 	$query = $mysqli->query($sql) or die($mysqli->error);
 	if ($query->num_rows > 0) {
 		echo '<form name="entryForm" action="entry_form.php" method="post" onsubmit="return checkform();">' . "\n";
@@ -109,6 +113,8 @@ include('includes/header.php');
 		echo '		<div class="row">'."\n";
 		echo '			<div class="col-xs-12">'."\n";
 		$i = 0;
+                
+                
 		while ($row = $query->fetch_assoc()) {
 			$scoreEntered = false;
 			$homeTeam = new team($row['homeID']);
@@ -161,9 +167,13 @@ include('includes/header.php');
 			echo '					<div class="row bg-row3">'."\n";
 			echo '						<div class="col-xs-6 center">'."\n";
 			echo '							<div class="team">' . $visitorTeam->city . ' ' . $visitorTeam->team . '</div>'."\n";
-			$teamRecord = trim(getTeamRecord($visitorTeam->teamID));
-			if (!empty($teamRecord)) {
-				echo '							<div class="record">Record: ' . $teamRecord . '</div>'."\n";
+			$visitorTeamRecord = $visitorTeam->getTeamRecord();
+                        $homeTeamRecord = $homeTeam->getTeamRecord();
+                        
+//                        print_r($homeTeamRecord);
+			if (!empty($visitorTeamRecord)) {
+				echo '							<div class="record">Record: ' . $visitorTeamRecord['wins'] . ' W - ' . $visitorTeamRecord['loss'].' L </div>'."\n";
+                                echo '							<div class="record"> Away Record: ' . $visitorTeamRecord['visitorWin'] . ' W - ' . $visitorTeamRecord['visitorLoss'].' L </div>'."\n";
 			}
 			$teamStreak = trim(getTeamStreak($visitorTeam->teamID));
 			if (!empty($teamStreak)) {
@@ -172,9 +182,12 @@ include('includes/header.php');
 			echo '						</div>'."\n";
 			echo '						<div class="col-xs-6 center">' . "\n";
 			echo '							<div class="team">' . $homeTeam->city . ' ' . $homeTeam->team . '</div>'."\n";
-			$teamRecord = trim(getTeamRecord($homeTeam->teamID));
-			if (!empty($teamRecord)) {
-				echo '							<div class="record">Record: ' . $teamRecord . '</div>'."\n";
+			$teamRecord = $homeTeam->getTeamRecord();
+                        
+			if (!empty($homeTeamRecord)) {
+                            
+				echo '							<div class="record">Record: ' . $homeTeamRecord['wins'] . ' W - ' . $homeTeamRecord['loss'].' L </div>'."\n";
+                                echo '							<div class="record"> Home Record: ' . $homeTeamRecord['homeWin'] . ' W - ' . $homeTeamRecord['homeLoss'].' L </div>'."\n";
 			}
 			$teamStreak = trim(getTeamStreak($homeTeam->teamID));
 			if (!empty($teamStreak)) {
@@ -202,8 +215,8 @@ include('includes/header.php');
 						$statusImg = '<img src="images/cross_16x16.png" width="16" height="16" alt="" />';
 					}
 				}
-				echo '						<div class="col-xs-12 center your-pick"><b>Your Pick:</b></br />';
-				echo $statusImg . ' ' . $pickLabel;
+				echo '						<div class="col-xs-12 center your-pick" style="background-color:gray"><b>Your Pick:</b></br />';
+				echo $statusImg . ' ' . $pickLabel . ' ' . $statusImg;
 				echo '</div>' . "\n";
 				echo '					</div>' . "\n";
 			}

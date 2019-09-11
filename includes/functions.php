@@ -338,7 +338,7 @@ function getTeamRecord($teamID) {
 	$sql .= "where (homeScore not in(null, '0') and visitorScore not in(null, '0'))";
 	$sql .= " and visitorID = '" . $teamID . "' ";
 	$sql .= "order by weekNum";
-	//echo $sql;
+//	echo $sql;
 	$query = $mysqli->query($sql);
 	if ($query->num_rows > 0) {
 		$wins = 0;
