@@ -1,17 +1,17 @@
 <?php
 //modify vars below
 // Database
-define('DB_HOSTNAME', 'pickem.website:3306');
+define('DB_HOSTNAME', 'localhost:8889');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '$tet$on00Bo$ton07');
+define('DB_PASSWORD', 'root');
 define('DB_DATABASE', 'Picks');
 define('DB_PREFIX', 'nflp_');
 
-define('SITE_URL', 'http://pickem.website');
+define('SITE_URL', 'local.projects.com');
 define('ALLOW_SIGNUP', true);
 define('SHOW_SIGNUP_LINK', true);
 define('USER_NAMES_DISPLAY', 3); // 1 = real names, 2 = usernames, 3 = usernames w/ real names on hover
-define('COMMENTS_SYSTEM', 'disabled'); // basic, disqus, or disabled
+define('COMMENTS_SYSTEM', 'basic'); // basic, disqus, or disabled
 define('DISQUS_SHORTNAME', ''); // only needed if using Disqus for comments
 
 define('SEASON_YEAR', '2019');

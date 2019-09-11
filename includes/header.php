@@ -40,12 +40,12 @@
 						<div class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
                                                            
-								<li<?= (($activeTab == 'home') ? ' class="active"' : ''); ?>><a href="./">Home</a></li>
+								<li<?= ((isset($activeTab) == 'home') ? ' class="active"' : ''); ?>><a href="./">Home</a></li>
 								<?php if ($user->userName !== 'admin') { ?>
-								<li <?= (($activeTab == 'entry_form') ? ' class="active"' : ''); ?>><a href="entry_form.php<?php echo ((!empty($_GET['week'])) ? '?week=' . (int)$_GET['week'] : ''); ?>">Entry Form</a></li>
+								<li <?= ((isset($activeTab) == 'entry_form') ? ' class="active"' : ''); ?>><a href="entry_form.php<?php echo ((!empty($_GET['week'])) ? '?week=' . (int)$_GET['week'] : ''); ?>">Entry Form</a></li>
 								<?php } ?>
-								<li <?= (($activeTab == 'results') ? ' class="active"' : ''); ?>><a href="results.php<?php echo ((!empty($_GET['week'])) ? '?week=' . (int)$_GET['week'] : ''); ?>">Results</a></li>
-								<li <?= (($activeTab == 'standings') ? ' class="active"' : ''); ?>><a href="standings.php">Standings</a></li>
+								<li <?= ((isset($activeTab) == 'results') ? ' class="active"' : ''); ?>><a href="results.php<?php echo ((!empty($_GET['week'])) ? '?week=' . (int)$_GET['week'] : ''); ?>">Results</a></li>
+								<li <?= ((isset($activeTab) == 'standings') ? ' class="active"' : ''); ?>><a href="standings.php">Standings</a></li>
 								<!--li><a href="teams.php">Teams</a></li-->
 								<!--li><a href="schedules.php">Schedules</a></li-->
 								<?php if ($_SESSION['logged'] === 'yes' && $user->is_admin) { ?>

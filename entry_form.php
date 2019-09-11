@@ -2,7 +2,7 @@
 require_once('includes/application_top.php');
 require('includes/classes/team.php');
 
-if ($_POST['action'] == 'Submit') {
+if (isset($_POST['action']) == 'Submit') {
    
 	$week = $_POST['week'];
 	$cutoffDateTime = getCutoffDateTime($week);
@@ -91,7 +91,6 @@ include('includes/header.php');
 	} else {
 		$showPicks = 1;
 	}
-	$query->free;
 
 	//display schedule for week
 	$sql = "select s.*, (DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > gameTimeEastern or DATE_ADD(NOW(), INTERVAL " . SERVER_TIMEZONE_OFFSET . " HOUR) > '" . $cutoffDateTime . "')  as expired ";
@@ -149,12 +148,12 @@ include('includes/header.php');
 				echo '					<div class="row bg-row2">'."\n";
 				echo '						<div class="col-xs-1"></div>' . "\n";
 				echo '						<div class="col-xs-4 center">'."\n";
-				echo '							<input type="radio" class="check-with-label" name="game' . $row['gameID'] . '" value="' . $visitorTeam->teamID . '" id="' . $row['gameID'] . $visitorTeam->teamID . '"' . (($picks[$row['gameID']]['pickID'] == $visitorTeam->teamID) ? ' checked' : '') . ' />'."\n";
+				echo '							<input type="radio" class="check-with-label" name="game' . @$row['gameID'] . '" value="' . $visitorTeam->teamID . '" id="' . @$row['gameID'] . $visitorTeam->teamID . '"' . ((@$picks[$row['gameID']]['pickID'] == $visitorTeam->teamID) ? ' checked' : '') . ' />'."\n";
 				echo '						</div>'."\n";
 				//echo '						<div class="col-xs-2 center" style="font-size: 0.8em;">&#9664; Choose &#9654;</div>' . "\n";
 				echo '						<div class="col-xs-2"></div>' . "\n";
 				echo '						<div class="col-xs-4 center">'."\n";
-				echo '							<input type="radio" class="check-with-label" name="game' . $row['gameID'] . '" value="' . $homeTeam->teamID . '" id="' . $row['gameID'] . $homeTeam->teamID . '"' . (($picks[$row['gameID']]['pickID'] == $homeTeam->teamID) ? ' checked' : '') . ' />' . "\n";
+				echo '							<input type="radio" class="check-with-label" name="game' . @$row['gameID'] . '" value="' . $homeTeam->teamID . '" id="' . @$row['gameID'] . $homeTeam->teamID . '"' . ((@$picks[$row['gameID']]['pickID'] == $homeTeam->teamID) ? ' checked' : '') . ' />' . "\n";
 				echo '						</div>' . "\n";
 				echo '						<div class="col-xs-1"></div>' . "\n";
 				echo '					</div>' . "\n";

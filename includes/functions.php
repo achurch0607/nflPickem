@@ -1,7 +1,7 @@
 <?php
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // functions.php
 function getCurrentWeek() {
 	//get the current week number
@@ -253,17 +253,17 @@ function calculateStats() {
 		$query = $mysqli->query($sql);
 		while ($row = $query->fetch_assoc()) {
 			$playerPicks[$row['userID'] . $row['gameID']] = $row['pickID'];
-			$playerWeeklyTotals[$row['userID']][week] = $week;
-			$playerTotals[$row['userID']][wins] += 0;
-			$playerTotals[$row['userID']][name] = $row['firstname'] . ' ' . $row['lastname'];
-			$playerTotals[$row['userID']][userName] = $row['userName'];
+			$playerWeeklyTotals[$row['userID']]['week'] = $week;
+			@$playerTotals[$row['userID']]['wins'] += 0;
+			$playerTotals[$row['userID']]['name'] = $row['firstname'] . ' ' . $row['lastname'];
+			$playerTotals[$row['userID']]['userName'] = $row['userName'];
 			if (!empty($games[$row['gameID']]['winnerID']) && $row['pickID'] == $games[$row['gameID']]['winnerID']) {
 				//player has picked the winning team
-				$playerWeeklyTotals[$row['userID']][score] += 1;
-				$playerTotals[$row['userID']][score] += 1;
+				@$playerWeeklyTotals[$row['userID']]['score'] += 1;
+				$playerTotals[$row['userID']]['score'] += 1;
 			} else {
-				$playerWeeklyTotals[$row['userID']][score] += 0;
-				$playerTotals[$row['userID']][score] += 0;
+				@$playerWeeklyTotals[$row['userID']]['score'] += 0;
+				@$playerTotals[$row['userID']]['score'] += 0;
 			}
 		}
 
@@ -271,14 +271,14 @@ function calculateStats() {
 		$highestScore = 0;
 		arsort($playerWeeklyTotals);
 		foreach($playerWeeklyTotals as $playerID => $stats) {
-			if ($stats[score] > $highestScore) $highestScore = $stats[score];
-			if ($stats[score] < $highestScore) break;
-			$weekStats[$week][winners][] = $playerID;
-			$playerTotals[$playerID][wins] += 1;
+			if ($stats['score'] > $highestScore) $highestScore = $stats['score'];
+			if ($stats['score'] < $highestScore) break;
+			$weekStats[$week]['winners'][] = $playerID;
+			$playerTotals[$playerID]['wins'] += 1;
 		}
-		$weekStats[$week][highestScore] = $highestScore;
-		$weekStats[$week][possibleScore] = getGameTotal($week);
-		$possibleScoreTotal += $weekStats[$week][possibleScore];
+		$weekStats[$week]['highestScore'] = $highestScore;
+		$weekStats[$week]['possibleScore'] = getGameTotal($week);
+		$possibleScoreTotal += $weekStats[$week]['possibleScore'];
 	}
 }
 

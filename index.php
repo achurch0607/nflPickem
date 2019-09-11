@@ -31,7 +31,7 @@ if ($user->userName == 'admin') {
         $i = 1;
         while($i <= count($weekRow)){
             if($weekRow[$i]['expired']){
-                if($lastCompletedWeek >= (int)$weekRow[$i]['weekNum']){
+                if(@$lastCompletedWeek >= (int)$weekRow[$i]['weekNum']){
                     $scoreTotal = '<li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong><b>Score: ' . $userScore . '/' . $weekTotal . ' (' . number_format(($userScore / $weekTotal) * 100, 2) . '%)</b></strong><a href="results.php?week='.$weekRow[$i]['weekNum'].'">See Results &raquo;</a></li>';
                 } else {
                     $scoreTotal = '<li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>Week is closed,</b> but scores have not yet been entered.</strong><a href="results.php?week='.$weekRow[$i]['weekNum'].'">See Results &raquo;</a>';
@@ -42,7 +42,7 @@ if ($user->userName == 'admin') {
 			$picks = getUserPicks($weekRow[$i]['weekNum'], $user->userID);
 			if (sizeof($picks) < (int)$weekRow[$i]['gamesTotal']) {
 				//not all picks were entered
-				
+    
 				if ((int)$currentWeek == (int)$weekRow[$i]['weekNum']) {
 					//only show in red if this is the current week
 					$tmpStyle = ' style="color: red;"';

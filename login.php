@@ -12,8 +12,7 @@ if(is_array($_POST) && sizeof($_POST) > 0){
 
 //require_once('includes/header.php');
 if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
-	header('Content-Type:text/html; charset=utf-8');
-	header('X-UA-Compatible:IE=Edge,chrome=1'); //IE8 respects this but not the meta tag when under Local Intranet
+	
 ?>
 <!DOCTYPE html>
 <html xml:lang="en" lang="en">
@@ -54,7 +53,7 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 			<h2 class="form-signin-heading">NFL Pick 'Em Login</h2>
                       
 			<?php
-			if ($_REQUEST['login'] == 'failed') {
+			if (isset($_REQUEST['login']) == 'failed') {
                             
 				echo '<div class="text-center"><img src="/images/art_holst_nfl.jpg" class="img-thumbnail"></div>';
                                 echo '<div class="text-center"><h2 style="color:yellow;"> LOGIN FAILED!</h2></div>';
@@ -72,15 +71,6 @@ if(empty($_SESSION['logged']) || $_SESSION['logged'] !== 'yes') {
 			?>
 			<p style="color:white;"><a href="password_reset.php" class="btn btn-sm btn-primary btn-block" >Forgot Your Password?</a></p>
 		</form>
-
-                    <div id="firstGame" class="countdown bg-success"></div>
-                    <script type="text/javascript">
-                    //set up countdown for first game
-                    var firstGameTime = new Date("<?php echo date('F j, Y H:i:00', strtotime('-2 hours',strtotime($firstGameTime))); ?>");
-                    firstGameTime.setHours(firstGameTime.getHours() );
-                    $('#firstGame').countdown({until: firstGameTime, description: 'Until Week 1 Starts!'});
-                    </script>
-
     </div>
     </div> <!-- /container -->
 </body>

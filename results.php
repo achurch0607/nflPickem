@@ -1,11 +1,11 @@
 <?php
 require('includes/application_top.php');
 
-$week = (int)$_GET['week'];
-if (empty($week)) {
-	//get current week
-	$week = (int)getCurrentWeek();
-}
+$week = isset($_GET['week']) ? isset($_GET['week']) : $week = (int)getCurrentWeek();;
+//if (empty($week)) {
+//	//get current week
+//	$week = (int)getCurrentWeek();
+//}
 
 $cutoffDateTime = getCutoffDateTime($week);
 $weekExpired = ((date("U", time()+(SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($cutoffDateTime)) ? 1 : 0);
@@ -58,7 +58,6 @@ while ($row = $query->fetch_assoc()) {
 	}
 	$i++;
 }
-$query->free;
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
