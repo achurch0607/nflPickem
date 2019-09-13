@@ -61,7 +61,7 @@ include('includes/header.php');
                              <?php
                           $i = 1;
                           while ($i <= 17) {
-                              $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
+                              $weekLink = '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
                               echo $weekLink;
                               $i++;
                           }
@@ -177,7 +177,7 @@ include('includes/header.php');
 			}
 			$teamStreak = trim(getTeamStreak($visitorTeam->teamID));
 			if (!empty($teamStreak)) {
-				echo '							<div class="streak">Streak: ' . $teamStreak . '</div>'."\n";
+                                echo '							<div class="streak">Streak: ' . $teamStreak . '</div>'."\n";
 			}
 			echo '						</div>'."\n";
 			echo '						<div class="col-xs-6 center">' . "\n";

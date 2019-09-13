@@ -89,7 +89,7 @@ $(document).ready(function(){
                              <?php
                           $i = 1;
                           while ($i <= 17) {
-                              $weekLink = $week == $i ? '<li class="disabled" role="presentation"><a href="#" role="menuitem">Week '.$i.'</a></li>' : '<li role="presentation"><a class="dropdown-item" role="menuitem" href="results.php?week='.$i.'">Week '.$i.'</a></li>';
+                              $weekLink = '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
                               echo $weekLink;
                               $i++;
                           }
