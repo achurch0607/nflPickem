@@ -1,11 +1,7 @@
 <?php
 require('includes/application_top.php');
 
-$week = isset($_GET['week']) ? isset($_GET['week']) : $week = (int)getCurrentWeek();;
-//if (empty($week)) {
-//	//get current week
-//	$week = (int)getCurrentWeek();
-//}
+$week = isset($_GET['week']) ? ($_GET['week']) : $week = (int)getCurrentWeek();
 
 $cutoffDateTime = getCutoffDateTime($week);
 $weekExpired = ((date("U", time()+(SERVER_TIMEZONE_OFFSET * 3600)) > strtotime($cutoffDateTime)) ? 1 : 0);
@@ -89,8 +85,8 @@ $(document).ready(function(){
                              <?php
                           $i = 1;
                           while ($i <= 17) {
-                              $weekLink = '<li role="presentation"><a class="dropdown-item" role="menuitem" href="entry_form.php?week='.$i.'">Week '.$i.'</a></li>';
-                              echo $weekLink;
+                              $weekLink = '<li role="presentation"><a class="dropdown-item" role="menuitem" href="results.php?week='.$i.'">Week '.$i.'</a></li>';
+                              echo $weekLink;                           
                               $i++;
                           }
 
