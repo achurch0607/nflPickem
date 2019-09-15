@@ -232,8 +232,6 @@ include('includes/header.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
-                echo '<label class="radio-inline"><input type="radio" name="weeklyPool" value="1">In for the weekly pool</label>
-                        <label class="radio-inline"><input type="radio" name="weeklyPool" value="0" checked>Out for the weekly pool</label>';
 		echo '<p class="noprint"><button type="submit" name="action" value="Submit" class="btn btn-primary btn-lg btn-block">Submit Picks</button></p>' . "\n";
 		echo '</form>' . "\n";
 	}
