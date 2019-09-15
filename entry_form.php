@@ -23,7 +23,7 @@ if (isset($_POST['action']) == 'Submit') {
 			$mysqli->query($sql) or die('Error deleting picks: ' . $mysqli->error);
 
 			if (!empty($_POST['game' . $row['gameID']])) {
-				$sql = "insert into " . DB_PREFIX . "picks (userID, gameID, pickID, weeklyPool) values (" . $user->userID . ", " . $row['gameID'] . ", '" . $_POST['game' . $row['gameID']] ."', '" . $weeklyPool . "')";
+				$sql = "insert into " . DB_PREFIX . "picks (userID, gameID, pickID) values (" . $user->userID . ", " . $row['gameID'] . ", '" . $_POST['game' . $row['gameID']] . "')";
 				$mysqli->query($sql) or die('Error inserting picks: ' . $sql . ' ' . $mysqli->error);
 			}
 		}
@@ -72,8 +72,8 @@ include('includes/header.php');
 
         </div>      
         <div>
-            <label class="radio-inline"><input type="radio" name="weeklyPool" value="1"><b>I'm in for this weeks $10 pool</b></label>
-            <label class="radio-inline"><input type="radio" name="weeklyPool" value="0" checked><b>I'm out of this weeks $10 pool</b></label>
+<!--            <label class="radio-inline"><input type="radio" name="weeklyPool" value="1"><b>I'm in for this weeks $10 pool</b></label>
+            <label class="radio-inline"><input type="radio" name="weeklyPool" value="0" checked><b>I'm out of this weeks $10 pool</b></label>-->
         </div>
     </div>
 </div>
