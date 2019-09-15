@@ -76,7 +76,11 @@ if ($user->userName == 'admin') {
                                                 <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong>First Game Starts <?=date('n/j g:i a', strtotime('-2 hours',strtotime($weekRow[$i]['firstGameTime'])))?> MST</strong></li>
                                                 <li><span class="weekDetails-li"><i class="weekDetails weekDetails-check"></i></span><strong><?=$weekRow[$i]['gamesTotal']?> games this week.</strong></li>
                                             </ul>
+                                            <?php if($weekRow[$i]['expired']){ ?>
+                                            <a href="results.php?week=<?=$weekRow[$i]['weekNum']?>" class="btn btn-block btn-success text-uppercase">View Results for  Week <?=$weekRow[$i]['weekNum']?></a>
+                                            <?php } else { ?>
                                             <a href="entry_form.php?week=<?=$weekRow[$i]['weekNum']?>" class="btn btn-block btn-primary text-uppercase">Enter  Week <?=$weekRow[$i]['weekNum']?> Picks Now</a>
+                                            <?php };?>
                                         </div>
                                     </div>
                                 </div>
