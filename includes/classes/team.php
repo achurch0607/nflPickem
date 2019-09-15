@@ -36,7 +36,7 @@ class team {
 		}
 	}
         
-        function getTeamRecord(){
+        function getTeamRecord() {
             $score = array('homeScore' => 0, 'visitorScore' => 0, 'homeID' => '', 'visitorID' => '', 'homeWin' => 0, 'homeLoss' => 0, 'visitorWin' => 0, 'visitorLoss' => 0);
             global $mysqli;
             $sql = "select * from " . DB_PREFIX . "schedule WHERE (homeID = '$this->teamID 'OR visitorID = '$this->teamID') AND (homeScore != 0 OR visitorScore != 0);";
@@ -60,5 +60,5 @@ class team {
             return $score;
          
         }
-
+        
 }

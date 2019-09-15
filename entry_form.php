@@ -5,6 +5,7 @@ require('includes/classes/team.php');
 if (isset($_POST['action']) == 'Submit') {
    
 	$week = $_POST['week'];
+        $weeklyPool = $_POST['weeklyPool'];
 	$cutoffDateTime = getCutoffDateTime($week);
 
 	//update summary table
@@ -22,8 +23,8 @@ if (isset($_POST['action']) == 'Submit') {
 			$mysqli->query($sql) or die('Error deleting picks: ' . $mysqli->error);
 
 			if (!empty($_POST['game' . $row['gameID']])) {
-				$sql = "insert into " . DB_PREFIX . "picks (userID, gameID, pickID) values (" . $user->userID . ", " . $row['gameID'] . ", '" . $_POST['game' . $row['gameID']] . "')";
-				$mysqli->query($sql) or die('Error inserting picks: ' . $mysqli->error);
+				$sql = "insert into " . DB_PREFIX . "picks (userID, gameID, pickID, weeklyPool) values (" . $user->userID . ", " . $row['gameID'] . ", '" . $_POST['game' . $row['gameID']] ."', '" . $weeklyPool . "')";
+				$mysqli->query($sql) or die('Error inserting picks: ' . $sql . ' ' . $mysqli->error);
 			}
 		}
 	}
@@ -69,6 +70,10 @@ include('includes/header.php');
                       ?>
             </ul>
 
+        </div>      
+        <div>
+            <label class="radio-inline"><input type="radio" name="weeklyPool" value="1"><b>I'm in for this weeks $10 pool</b></label>
+            <label class="radio-inline"><input type="radio" name="weeklyPool" value="0" checked><b>I'm out of this weeks $10 pool</b></label>
         </div>
     </div>
 </div>
@@ -144,7 +149,7 @@ include('includes/header.php');
 			echo '						<div class="col-xs-4">'."\n";
 			echo '							<label for="' . $row['gameID'] . $visitorTeam->teamID . '" class="label-for-check"><div class="team-logo"><img src="images/logos/'.$visitorTeam->teamID.'.svg" onclick="document.entryForm.game'.$row['gameID'].'[0].checked=true;" /></div></label>' . "\n";
 			echo '						</div>'."\n";
-			echo '						<div class="col-xs-2">@</div>' . "\n";
+			echo '						<div class="col-xs-2 col-md-2">@</div>' . "\n";                                                                     
 			echo '						<div class="col-xs-4">'."\n";
 			echo '							<label for="' . $row['gameID'] . $homeTeam->teamID . '" class="label-for-check"><div class="team-logo"><img src="images/logos/'.$homeTeam->teamID.'.svg" onclick="document.entryForm.game' . $row['gameID'] . '[1].checked=true;" /></div></label>'."\n";
 			echo '						</div>' . "\n";
@@ -156,8 +161,10 @@ include('includes/header.php');
 				echo '						<div class="col-xs-4 center">'."\n";
 				echo '							<input type="radio" class="check-with-label" name="game' . @$row['gameID'] . '" value="' . $visitorTeam->teamID . '" id="' . @$row['gameID'] . $visitorTeam->teamID . '"' . ((@$picks[$row['gameID']]['pickID'] == $visitorTeam->teamID) ? ' checked' : '') . ' />'."\n";
 				echo '						</div>'."\n";
-				//echo '						<div class="col-xs-2 center" style="font-size: 0.8em;">&#9664; Choose &#9654;</div>' . "\n";
-				echo '						<div class="col-xs-2"></div>' . "\n";
+                                if($user->userID == 2 || $user->userID == 3){
+				echo '						<div class="col-xs-2 center" style="font-size: 0.8em;"><a class="btn btn-primary btn-sm" href="historicalMatchup.php?visitor=' . $visitorTeam->teamID . '&home=' . $homeTeam->teamID .'"> historical matchups </a></div>' . "\n";
+                                };
+                                echo '						<div class="col-xs-2"></div>' . "\n";
 				echo '						<div class="col-xs-4 center">'."\n";
 				echo '							<input type="radio" class="check-with-label" name="game' . @$row['gameID'] . '" value="' . $homeTeam->teamID . '" id="' . @$row['gameID'] . $homeTeam->teamID . '"' . ((@$picks[$row['gameID']]['pickID'] == $homeTeam->teamID) ? ' checked' : '') . ' />' . "\n";
 				echo '						</div>' . "\n";
@@ -225,6 +232,8 @@ include('includes/header.php');
 		}
 		echo '		</div>' . "\n";
 		echo '		</div>' . "\n";
+                echo '<label class="radio-inline"><input type="radio" name="weeklyPool" value="1">In for the weekly pool</label>
+                        <label class="radio-inline"><input type="radio" name="weeklyPool" value="0" checked>Out for the weekly pool</label>';
 		echo '<p class="noprint"><button type="submit" name="action" value="Submit" class="btn btn-primary btn-lg btn-block">Submit Picks</button></p>' . "\n";
 		echo '</form>' . "\n";
 	}
@@ -237,5 +246,5 @@ echo '	</div>'."\n"; // end entry-form row
 //echo '</div>';
 
 include('includes/footer.php');
-?>
+?>     
 <script src="js/entry_form.js"></script>

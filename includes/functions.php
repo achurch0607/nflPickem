@@ -462,3 +462,62 @@ function updateScores($scores, $mysqli){
     }
      echo 'success';
 }
+
+function historicalMatchups($h,$v) {
+        $matchupRecord = array();
+        global $mysqli;
+        $sql = 'select * from nflp_historical_schedule where homeID IN ("'.$h.'", "'.$v.'") AND visitorID IN ("'.$h.'", "'.$v.'")  AND gameTimeEastern > "2014-01-01 00:00:00" order by gameTimeEastern DESC;';
+//        print($sql);
+        $query = $mysqli->query($sql) or die($sql . ' died getting historical Matchups');
+        while($row = $query->fetch_assoc()) {
+            array_push($matchupRecord,$row);
+//            print_r($row);
+        }
+
+        return $matchupRecord;
+}
+
+function getMatchupTotals($array ,$h, $v) {
+    $score[$h] = array('homeScore' => 0, 'visitorScore' => 0, 'homeID' => '', 'visitorID' => '', 'homeWin' => 0, 'homeLoss' => 0, 'visitorWin' => 0, 'visitorLoss' => 0, 'pf' => 0, 'pa' => 0);
+    $score[$v] = array('homeScore' => 0, 'visitorScore' => 0, 'homeID' => '', 'visitorID' => '', 'homeWin' => 0, 'homeLoss' => 0, 'visitorWin' => 0, 'visitorLoss' => 0, 'pf' => 0, 'pa' => 0);
+//    echo $h . ' ' . $v;   
+    foreach($array as $data){
+        if($data['homeID'] == $h) {
+            
+            $score[$h]['pf'] += $data['homeScore'];
+            $score[$h]['pa'] += $data['visitorScore'];
+
+            $data['homeScore'] > $data['visitorScore'] ? $score[$h]['homeWin']++ : $score[$h]['homeLoss']++;
+        }
+        if($data['visitorID'] == $h){
+            $score[$h]['pf'] += $data['visitorScore'];
+            $score[$h]['pa'] += $data['homeScore'];
+            
+            $data['homeScore'] < $data['visitorScore'] ? $score[$h]['visitorWin']++ : $score[$h]['visitorLoss']++;
+         }
+         if($data['homeID'] == $v) {
+             
+            $score[$v]['pf'] += $data['homeScore'];
+            $score[$v]['pa'] += $data['visitorScore'];
+            
+            $data['homeScore'] > $data['visitorScore'] ? $score[$v]['homeWin']++ : $score[$v]['homeLoss']++;
+        }
+        if($data['visitorID'] == $v){
+            $score[$v]['pf'] += $data['visitorScore'];
+            $score[$v]['pa'] += $data['homeScore'];
+
+            $data['homeScore'] < $data['visitorScore'] ? $score[$v]['visitorWin']++ : $score[$v]['visitorLoss']++;
+         }
+   }
+//   print_r($score);
+    $score[$v]['w'] = $score[$v]['homeWin'] + $score[$v]['visitorWin'];
+    $score[$v]['l'] = $score[$v]['homeLoss'] + $score[$v]['visitorLoss'];
+    $score[$h]['w'] = $score[$h]['homeWin'] + $score[$h]['visitorWin'];
+    $score[$h]['l'] = $score[$h]['homeLoss'] + $score[$h]['visitorLoss'];
+   
+   return $score;
+}
+
+function overUnder($points, $games){
+    return $points/$games;
+}
